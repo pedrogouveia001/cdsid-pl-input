@@ -1,0 +1,32 @@
+﻿# Delphi build
+*.dcu
+*.exe
+*.dll
+*.bpl
+*.dcp
+*.identcache
+*.local
+*.~*
+*.stat
+*.map
+*.tds
+*.obj
+*.rsm
+__history/
+__recovery/
+Win32/
+Win64/
+Android/
+iOS*/
+OSX*/
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
