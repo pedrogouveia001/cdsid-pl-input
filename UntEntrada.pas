@@ -24,7 +24,7 @@ uses
   IWColorComboBox, IWTMSImgCtrls, IWTMSCtrls,
   IWTMSMenus, RpDefine, RpRender, RpRenderText,
   IWAdvCheckGroup, IWDBAdvCheckGroup, GanttCh, IWCompRectangle,
-  TeeDoubleHorizBar;
+  TeeDoubleHorizBar, IWAdvToolButton;
 
 type
   TIWForm1 = class(TIWAppForm)
@@ -81,24 +81,9 @@ type
     IWRegion2: TIWRegion;
     grdprobvitoria: TIWGrid;
     Series1: TBarSeries;
-    rgnAnaliseEstatisticaPromethee: TIWRegion;
-    IWImage11: TIWImage;
-    IWImage12: TIWImage;
-    IWLabel32: TIWLabel;
-    IWLink10: TIWLink;
-    IWText3: TIWText;
-    IWText4: TIWText;
-    IWText6: TIWText;
-    IWRegion23: TIWRegion;
-    IWRegion24: TIWRegion;
-    IWRegion26: TIWRegion;
-    grdestatisticaPromethee: TIWGrid;
-    IWRegion27: TIWRegion;
-    grdmaxminPromethee: TIWGrid;
     IWRegion28: TIWRegion;
     grdexportacao: TTIWAdvWebGrid;
     lnkExportar: TIWLink;
-    lnkexportacaopromethee: TIWLink;
     cmbbxcriteria: TIWComboBox;
     rgnregradedecisao: TIWRegion;
     IWImage15: TIWImage;
@@ -112,7 +97,6 @@ type
     txtregradedecisao: TIWText;
     rgndescricao: TIWRegion;
     IWText7: TIWText;
-    IWLink15: TIWLink;
     rgnalternativa: TIWRegion;
     IWImage19: TIWImage;
     IWImage20: TIWImage;
@@ -186,27 +170,14 @@ type
     IWLabel44: TIWLabel;
     IWLabel36: TIWLabel;
     IWLabel45: TIWLabel;
-    IWLabel33: TIWLabel;
-    IWLabel34: TIWLabel;
-    tbctrlResultados: TIWTabControl;
-    pgAlternativas: TIWTabPage;
-    pgPOA: TIWTabPage;
-    IWRegion17: TIWRegion;
-    imgPOA: TIWImage;
-    IWRegion22: TIWRegion;
-    imgAlternative: TIWImage;
     chrtPOA: TChart;
     BarSeries1: TBarSeries;
-    pgComparacao: TIWTabPage;
-    IWRegion25: TIWRegion;
-    imgcomparacao: TIWImage;
     chrtComparacao: TChart;
     Series3: TLineSeries;
     Series4: TLineSeries;
     rgncomparacao: TIWRegion;
     IWLabel57: TIWLabel;
     grdcomparacao: TIWGrid;
-    IWLink7: TIWLink;
     IWLabel37: TIWLabel;
     cmbbxAlternativa: TIWComboBox;
     imgalternativa: TIWImage;
@@ -329,6 +300,10 @@ type
     IWLabel17: TIWLabel;
     IWLabel18: TIWLabel;
     IWTimer1: TIWTimer;
+    imgresultado: TIWImage;
+    btnVisualizarOP: TTIWAdvToolButton;
+    btnalternativa: TTIWAdvToolButton;
+    TIWAdvToolButton2: TTIWAdvToolButton;
     procedure rgnmatconsCreate(Sender: TObject);
     procedure btnupdateClick(Sender: TObject);
     procedure cmbbxauxiliarAsyncChange(Sender: TObject;
@@ -352,7 +327,6 @@ type
     procedure PLEscolha(auxinst: Integer);
     procedure PlOrdenacao(auxinst: Integer);
     procedure DSiTrimWorkingSet;
-    procedure tbctrlResultadosChange(Sender: TObject);
     procedure btnupdatevisualizacaoClick(Sender: TObject);
     procedure cmbbxAlternativaChange(Sender: TObject);
     procedure rgnalternativaCreate(Sender: TObject);
@@ -387,6 +361,21 @@ type
     procedure IWLink1Click(Sender: TObject);
     procedure lnkExportarClick(Sender: TObject);
     procedure rgnanaliseestatisticaCreate(Sender: TObject);
+    procedure IWLink3Click(Sender: TObject);
+    procedure btnVisualizarOPClick(Sender: TObject);
+    procedure btnalternativaClick(Sender: TObject);
+    procedure TIWAdvToolButton2Click(Sender: TObject);
+    procedure IWLink12Click(Sender: TObject);
+    procedure IWLink13Click(Sender: TObject);
+    procedure cmbbxp1Change(Sender: TObject);
+    procedure cmbbxp2Change(Sender: TObject);
+    procedure cmbbxp3Change(Sender: TObject);
+    procedure cmbbxp4Change(Sender: TObject);
+    procedure lnkregrasdedecisaoClick(Sender: TObject);
+    procedure RegrasDeDecisao;
+    procedure DecrementaValorLimiar(j,k : integer);
+    procedure btnatualizarlimiaresClick(Sender: TObject);
+    procedure lnkdescricaolimiarClick(Sender: TObject);
   public
   end;
 
@@ -394,6 +383,36 @@ implementation
 
 uses lpsolve51, uAPI_SolveLP, ServerController;
 {$R *.dfm}
+
+procedure TIWForm1.btnalternativaClick(Sender: TObject);
+begin
+rgncomparacao.Visible := false;
+    IWRegion5.Visible := true;
+    IWLabel8.Visible := true;
+    IWLabel9.Visible := true;
+    IWRegion6.Visible := true;
+
+
+
+          imgresultado.Picture.Bitmap.Assign(chrtResultado.TeeCreateBitmap
+        (clWebPURPLE, rect(0, 0, imgresultado.Width, imgresultado.Height)));
+
+        btnalternativa.BackColorto := clmedgray;
+        btnvisualizarop.BackColorto := clweblightgray;
+end;
+
+procedure TIWForm1.TIWAdvToolButton2Click(Sender: TObject);
+begin
+rgncomparacao.Visible := true;
+    IWRegion5.Visible := false;
+    IWLabel8.Visible := false;
+    IWLabel9.Visible := false;
+    IWRegion6.Visible := false;
+
+    imgresultado.Picture.Bitmap.Assign(chrtComparacao.TeeCreateBitmap
+        (clWebPURPLE, rect(0, 0, imgresultado.Width, imgresultado.Height)));
+
+end;
 
 Function TIWForm1.TrocaPV(Num: String): Double;
 var
@@ -1237,26 +1256,7 @@ begin
   end;
 end; { DSiTrimWorkingSet }
 
-procedure TIWForm1.tbctrlResultadosChange(Sender: TObject);
-begin
-  if tbctrlResultados.activepage = 2 then
-  begin
-    rgncomparacao.Visible := true;
-    IWRegion5.Visible := false;
-    IWLabel8.Visible := false;
-    IWLabel9.Visible := false;
-    IWRegion6.Visible := false;
-  end
-  else
-  begin
-    rgncomparacao.Visible := false;
-    IWRegion5.Visible := true;
-    IWLabel8.Visible := true;
-    IWLabel9.Visible := true;
-    IWRegion6.Visible := true;
-  end;
 
-end;
 
 procedure TIWForm1.GerarCases;
 var
@@ -1454,6 +1454,18 @@ begin
   rgnEnterLogin.Visible := true;
 end;
 
+procedure TIWForm1.IWLink12Click(Sender: TObject);
+begin
+rgnregradedecisao.visible := false;
+rgnanaliseestatistica.visible := true;
+end;
+
+procedure TIWForm1.IWLink13Click(Sender: TObject);
+begin
+rgnregradedecisao.visible := true;
+rgnanaliseestatistica.visible := false;
+end;
+
 procedure TIWForm1.IWLink1Click(Sender: TObject);
 begin
   rgnresultado.Visible := false;
@@ -1463,6 +1475,12 @@ end;
 procedure TIWForm1.IWLink2Click(Sender: TObject);
 begin
   rgnalternativa.Visible := false;
+  rgnresultado.Visible := true;
+end;
+
+procedure TIWForm1.IWLink3Click(Sender: TObject);
+begin
+rgnanaliseestatistica.Visible := false;
   rgnresultado.Visible := true;
 end;
 
@@ -1624,10 +1642,7 @@ begin
     // Limpar todos os TIWGrid
     grdresultados.Clear;
     grdcases.Clear;
-    grdestatisticaalternativa.Clear;
     grdprobvitoria.Clear;
-    grdestatisticapromethee.Clear;
-    grdmaxminPromethee.Clear;
     grdestatistica.Clear;
     grdmaxmin.Clear;
     grdregradedecisao.Clear;
@@ -1649,6 +1664,24 @@ begin
   rgnintro.Visible := true;
 end;
 
+procedure TIWForm1.lnkdescricaolimiarClick(Sender: TObject);
+begin
+  if rgndescricao.Visible = True then
+  begin
+    lnkdescricaolimiar.Caption :=
+      'Click here to view the decision rules thresholds';
+    rgndescricao.Visible := false;
+    rgnlimiares.Visible := True;
+    exit;
+  end;
+  if rgnlimiares.Visible = True then
+  begin
+    lnkdescricaolimiar.Caption := 'Click to view the conceptual explanations';
+    rgndescricao.Visible := True;
+    rgnlimiares.Visible := false;
+    exit;
+  end;
+end;
 procedure TIWForm1.lnkesqueceusenhaClick(Sender: TObject);
 begin
   iwrgnCaixaDialogoRU2.Visible := true;
@@ -1708,6 +1741,550 @@ begin
     TIWAdvWebGridExcelIO1.AdvWebGrid := grdexportacao;
     TIWAdvWebGridExcelIO1.XLSExport('Result Report' + '.xls', WebApplication);
 
+  end;
+end;
+
+
+procedure TIWForm1.RegrasDeDecisao;
+var
+i, j, k, qtdpareto: Integer;
+  auxregra, aux1, aux2, aux3: real;
+  aux : string;
+  bar: array of TBarSeries;
+  SolRegra1, SolRegra2, SolRegra3: Integer;
+  Naltsel: Integer;
+  totalacumulado: real;
+  epsilon, omega, faixaprob: array of real;
+  recomendacao: boolean;
+  Px: real;
+begin
+  With TiwUserSession(WebApplication.Data) do
+  begin
+    SetLength(epsilon, 4);
+    SetLength(omega, 4);
+    SetLength(faixaprob, 4);
+    for j := 1 to 2 do
+    begin
+    if (trocapv(grdlimiares.DynEdits[j, 0])) < 0.03 then
+      grdlimiares.DynEdits[j, 0] := '0.03';
+    if (trocapv(grdlimiares.DynEdits[j, 1])) < 0.02 then
+      grdlimiares.DynEdits[j, 1] := '0.02';
+    if (trocapv(grdlimiares.DynEdits[j, 2])) < 0.01 then
+      grdlimiares.DynEdits[j, 2] := '0.01';
+
+    if (trocapv(grdlimiares.DynEdits[j, 3])) > 0.97 then
+      grdlimiares.DynEdits[j, 3] := '0.97';
+    if (trocapv(grdlimiares.DynEdits[j, 2])) > 0.98 then
+      grdlimiares.DynEdits[j, 2] := '0.98';
+    if (trocapv(grdlimiares.DynEdits[j, 1])) > 0.99 then
+      grdlimiares.DynEdits[j, 1] := '0.99';
+
+
+
+
+    for i := 0 to grdlimiares.rowcount - 2 do
+    for k := i+1 to grdlimiares.rowcount - 1 do
+    begin
+      if (trocapv(grdlimiares.DynEdits[j, i])) <
+        (trocapv(grdlimiares.DynEdits[j, k])) then
+      begin
+        aux := grdlimiares.DynEdits[j, i];
+        grdlimiares.DynEdits[j, i] := grdlimiares.DynEdits[j, k];
+        grdlimiares.DynEdits[j, k] := aux;
+      end;
+      if (trocapv(grdlimiares.DynEdits[j, i])) =
+        (trocapv(grdlimiares.DynEdits[j, k])) then
+      begin
+        DecrementaValorLimiar(j, k);
+      end;
+    end;
+
+
+    end;
+    for i := 0 to 3 do
+    begin
+      epsilon[i] := trocapv(grdlimiares.DynEdits[1, i]);
+      omega[i] := trocapv(grdlimiares.DynEdits[2, i]);
+    end;
+
+    faixaprob[0] := StrToFloat(cmbbxp1.Items[cmbbxp1.ItemIndex]);
+    faixaprob[1] := StrToFloat(cmbbxp2.Items[cmbbxp2.ItemIndex]);
+    faixaprob[2] := StrToFloat(cmbbxp3.Items[cmbbxp3.ItemIndex]);
+    faixaprob[3] := StrToFloat(cmbbxp4.Items[cmbbxp4.ItemIndex]);
+
+
+
+    auxregra := 0;
+    qtdpareto := 0;
+    while auxregra < 0.8 do
+    begin
+      auxregra := auxregra + probabilidadealt[ordemalt[qtdpareto]];
+      inc(qtdpareto);
+    end;
+
+    grdperdamediaemaxima.Clear;
+    grdperdamediaemaxima.ColumnCount := 4;
+    grdperdamediaemaxima.rowcount := 1 + qtdpareto;
+    for i := 0 to grdperdamediaemaxima.ColumnCount - 1 do
+    begin
+      for j := 0 to grdperdamediaemaxima.rowcount - 1 do
+      begin
+        grdperdamediaemaxima.Cell[j, i].Alignment := taCenter;
+        grdperdamediaemaxima.Cell[j, i].wrap := True;
+        if j = 0 then
+        begin
+          grdperdamediaemaxima.Cell[j, i].BGColor := clWebWhiteSmoke;
+          grdperdamediaemaxima.Cell[j, i].Font.Style := [fsbold];
+        end;
+      end;
+    end;
+    grdperdamediaemaxima.Cell[0, 0].Text := 'Alternatives';
+    grdperdamediaemaxima.Cell[0, 1].Text := 'Probability[P(Ai)]';
+    grdperdamediaemaxima.Cell[0, 2].Text := 'Average Loss[μ(Aj,Ai)]:';
+    grdperdamediaemaxima.Cell[0, 3].Text := 'Maximum Loss[Dmax(Aj, Ai)]:';
+    for j := 0 to qtdpareto - 1 do
+    begin
+
+
+        grdperdamediaemaxima.Cell[1 + j, 0].Text := nomealt[ordemalt[j]];
+
+        grdperdamediaemaxima.Cell[j + 1, 1].Text := formatfloat
+          ('0', probabilidadealt[ordemalt[j]] * 100) + '%';
+        grdperdamediaemaxima.Cell[j + 1, 2].Text := formatfloat
+          ('0.00', Perdamedia[ordemalt[j]]);
+        grdperdamediaemaxima.Cell[j + 1, 3].Text := formatfloat
+          ('0.00', PerdaMaxima[ordemalt[j]]);
+
+    end;
+
+    grdregradedecisao.Clear;
+    grdregradedecisao.ColumnCount := 1 + qtdpareto;
+    grdregradedecisao.rowcount := 11;
+    for i := 0 to grdregradedecisao.ColumnCount - 1 do
+    begin
+      if i >= 1 + qtdpareto then
+      begin
+        grdregradedecisao.Cell[0, i].Font.Color := ClWebRed;
+        grdregradedecisao.Cell[0, i].Font.Style := [fsbold];
+      end;
+      for j := 0 to grdregradedecisao.rowcount - 1 do
+      begin
+        grdregradedecisao.Cell[j, i].Alignment := taCenter;
+        grdregradedecisao.Cell[j, i].wrap := True;
+        if i = 0 then
+          grdregradedecisao.Cell[j, 0].Font.Style := [fsbold];
+
+        if j = 0 then
+          grdregradedecisao.Cell[j, i].BGColor := clWebWhiteSmoke;
+
+        if j >= 8 then
+        begin
+          grdregradedecisao.Cell[j, i].Font.Color := ClWebRed;
+          grdregradedecisao.Cell[j, i].BGColor := clWebWhiteSmoke;
+        end;
+      end;
+
+    end;
+
+    grdregradedecisao.Cell[0, 0].Text := 'Alternative:';
+    grdregradedecisao.Cell[1, 0].Text := 'Probability [P(Ai)]:';
+    grdregradedecisao.Cell[2, 0].Text := 'Average Loss[μ(Aj,Ai)]:';
+    grdregradedecisao.Cell[3, 0].Text := 'Average Gain[μ(Ai,Aj)]:';
+    grdregradedecisao.Cell[4, 0].Text := 'Expected Loss[[1-P(Ai)]*μ(Aj,Ai)]:';
+    grdregradedecisao.Cell[5, 0].Text := 'Expected Gain[P(Ai)* μ(Aj,Ai)]:';
+    grdregradedecisao.Cell[6, 0].Text := 'Maximum Loss[Dmax(Aj, Ai)]:';
+    grdregradedecisao.Cell[7, 0].Text := 'Global Performance[G(Ai)]:';
+
+    grdregradedecisao.Cell[8, 0].Text := 'Minimum Avarage Loss:';
+    grdregradedecisao.Cell[9, 0].Text := 'Minimum Maximum Loss:';
+    grdregradedecisao.Cell[10, 0].Text := 'Maximum Global Performance:';
+
+    aux1 := 99999999999;
+    aux2 := 99999999999;
+    aux3 := -9999999999;
+
+    for i := 0 to qtdpareto - 1 do
+    begin
+
+
+    grdregradedecisao.Cell[0, 1 + i].Text := nomealt[ordemalt[i]];
+
+
+
+      // grdregradedecisao.Cell[0,1 + i].Text := 'Sol ' + inttostr(i + 1);
+      grdregradedecisao.Cell[1, 1 + i].Text := formatfloat
+        ('0', probabilidadealt[ordemalt[i]] * 100) + '%';
+      grdregradedecisao.Cell[2, 1 + i].Text := formatfloat
+        ('0.00', Perdamedia[ordemalt[i]]);
+      grdregradedecisao.Cell[3, 1 + i].Text := formatfloat
+        ('0.00', mediageralprobalt[ordemalt[i]]);
+      grdregradedecisao.Cell[4, 1 + i].Text := formatfloat
+        ('0.00', Perdamedia[ordemalt[i]] *
+          (1 - (ResultSol[ordemalt[i]] / Total)));
+      grdregradedecisao.Cell[5, 1 + i].Text := formatfloat
+        ('0.00', mediageralprobalt[ordemalt[i]] * probabilidadealt[ordemalt[i]]);
+      grdregradedecisao.Cell[6, 1 + i].Text := formatfloat
+        ('0.00', PerdaMaxima[ordemalt[i]]);
+      auxregra := 0;
+      auxregra := mediageralprobalt[ordemalt[i]] * probabilidadealt[ordemalt[i]]
+        - Perdamedia[ordemalt[i]] *(1 - probabilidadealt[ordemalt[i]]);
+
+      grdregradedecisao.Cell[7, 1 + i].Text := formatfloat('0.00', auxregra);
+
+      if Perdamedia[ordemalt[i]] < aux1 then
+      begin
+
+        aux1 := Perdamedia[ordemalt[i]];
+        SolRegra1 := i;
+      end;
+      if PerdaMaxima[ordemalt[i]] < aux2 then
+      begin
+        aux2 := PerdaMaxima[ordemalt[i]];
+        SolRegra2 := i;
+      end;
+      if (mediageralprobalt[ordemalt[i]] * probabilidadealt[ordemalt[i]]
+          - Perdamedia[ordemalt[i]] * (1 - probabilidadealt[ordemalt[i]])) > aux3 then
+      begin
+        aux3 := (mediageralprobalt[ordemalt[i]] * probabilidadealt[ordemalt[i]]
+            - Perdamedia[ordemalt[i]] * (1-probabilidadealt[ordemalt[i]]));
+        SolRegra3 := i;
+      end;
+
+    end;
+
+    grdregradedecisao.Cell[8, 1 + SolRegra1].Text := formatfloat
+      ('0.00', Perdamedia[ordemalt[SolRegra1]]);
+
+    grdregradedecisao.Cell[9, 1 + SolRegra2].Text := formatfloat
+      ('0.00', PerdaMaxima[ordemalt[SolRegra2]]);
+
+    grdregradedecisao.Cell[10, 1 + SolRegra3].Text := formatfloat
+      ('0.00', (mediageralprobalt[ordemalt[SolRegra3]] *
+          probabilidadealt[ordemalt[i]] - Perdamedia
+          [ordemalt[SolRegra3]] * (1-probabilidadealt[ordemalt[i]])));
+
+
+
+    recomendacao := false;
+
+    grdrecomendacao.Clear;
+    grdrecomendacao.rowcount := 4;
+    grdrecomendacao.ColumnCount := 2;
+    for i := 0 to grdrecomendacao.ColumnCount - 1 do
+    begin
+
+      grdrecomendacao.Cell[0, i].Font.Color := ClWebRed;
+      grdrecomendacao.Cell[0, i].Font.Style := [fsbold];
+      grdrecomendacao.Cell[0, i].BGColor := clWebWhiteSmoke;
+      for j := 0 to grdrecomendacao.rowcount - 1 do
+      begin
+        grdrecomendacao.Cell[j, i].Alignment := taCenter;
+        grdrecomendacao.Cell[j, i].wrap := True;
+      end;
+    end;
+
+    grdrecomendacao.Cell[0, 0].Text := 'Solution';
+    grdrecomendacao.Cell[0, 1].Text := 'Possibles Recommendations';
+    grdrecomendacao.Cell[1, 1].Text := 'Best Alternative';
+    grdrecomendacao.Cell[2, 1].Text := 'Two/Three Alternatives are Competitive';
+    grdrecomendacao.Cell[3, 1].Text := 'Unable to make it';
+    //txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' + grdperdamediaemaxima.Cell[1, 0].Text + ')' + ' + ' + 'P(' + grdperdamediaemaxima.Cell[2, 0].Text + ')' + ' + ' + 'P(' + grdperdamediaemaxima.Cell[3, 0].Text + ')';
+    // Para alt1
+    if probabilidadealt[ordemalt[0]] >=
+      (faixaprob[0] / 100) then // Se a alt[1] tiver uma probabilidade >= 80%, ela é recomendada
+    begin
+      Px := probabilidadealt[ordemalt[0]] * 100;
+      if (TIWUserSession(WebApplication.Data).PerdaMaxima[ordemalt[0]]
+          < epsilon[0]) and (TIWUserSession(WebApplication.Data)
+          .Perdamedia[ordemalt[0]] < omega[0]) then
+      begin
+
+        grdrecomendacao.Cell[1, 0].Text := nomealt[ordemalt[0]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' +
+          grdperdamediaemaxima.Cell[1, 0].Text + ')';
+        recomendacao := True;
+        exit;
+      end
+      else
+        recomendacao := false;
+    end;
+    if (probabilidadealt[ordemalt[0]] < (faixaprob[0] / 100)) and
+      (probabilidadealt[ordemalt[0]] >= (faixaprob[1] / 100)) and
+      (recomendacao = false) then
+    begin
+      Px := probabilidadealt[ordemalt[0]] * 100;
+      if (PerdaMaxima[ordemalt[0]] < epsilon[1]) and
+        (Perdamedia[ordemalt[0]] < omega[1]) then
+      begin
+        grdrecomendacao.Cell[1, 0].Text := nomealt[ordemalt[0]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' +
+          grdperdamediaemaxima.Cell[1, 0].Text + ')';
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+    if (probabilidadealt[ordemalt[0]] < (faixaprob[1] / 100)) and
+      (probabilidadealt[ordemalt[0]] >= (faixaprob[2] / 100)) and
+      (recomendacao = false) then
+    begin
+      Px := probabilidadealt[ordemalt[0]] * 100;
+      if (PerdaMaxima[ordemalt[0]] < epsilon[2]) and
+        (Perdamedia[ordemalt[0]] < omega[2]) then
+      begin
+
+
+        grdrecomendacao.Cell[1, 0].Text := nomealt[ordemalt[0]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' +
+          grdperdamediaemaxima.Cell[1, 0].Text + ')';
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+    if (probabilidadealt[ordemalt[0]] < (faixaprob[2] / 100)) and
+      (probabilidadealt[ordemalt[0]] >= (faixaprob[3] / 100)) and
+      (recomendacao = false) then
+    begin
+      Px := probabilidadealt[ordemalt[0]] * 100;
+      if (PerdaMaxima[ordemalt[0]] < epsilon[3]) and
+        (Perdamedia[ordemalt[0]] < omega[3]) then
+      begin
+
+
+        grdrecomendacao.Cell[1, 0].Text := nomealt[ordemalt[0]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' +
+          grdperdamediaemaxima.Cell[1, 0].Text + ')';
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+
+    // Para alt1 e alt2
+    if ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) >= (faixaprob[0] / 100)) and
+      (recomendacao = false) then
+    // Se a alt[1] tiver uma probabilidade >= 80%, ela é recomendada
+    begin
+      Px := (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) * 100;
+      if ((PerdaMaxima[ordemalt[0]] < epsilon[0]) and
+          (Perdamedia[ordemalt[0]] < omega[0])) and
+        ((PerdaMaxima[ordemalt[1]] < epsilon[0]) and
+          (Perdamedia[ordemalt[1]] < omega[0])) then
+      begin
+
+        grdrecomendacao.Cell[2, 0].Text := nomealt[ordemalt[0]] + ' and ' + nomealt[ordemalt[1]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' +
+          grdperdamediaemaxima.Cell[1, 0].Text + ')' + ' + ' + 'P(' +
+          grdperdamediaemaxima.Cell[2, 0].Text + ')';
+        recomendacao := True;
+        exit;
+      end
+      else
+        recomendacao := false;
+    end;
+    if ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) <
+        (faixaprob[0] / 100)) and
+      ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) >=
+        (faixaprob[1] / 100)) and (recomendacao = false) then
+    begin
+      Px := (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) * 100;
+      if ((PerdaMaxima[ordemalt[0]] < epsilon[1]) and
+          (Perdamedia[ordemalt[0]] < omega[1])) and
+        ((PerdaMaxima[ordemalt[1]] < epsilon[1]) and
+          (Perdamedia[ordemalt[1]] < omega[1])) then
+      begin
+
+
+        grdrecomendacao.Cell[2, 0].Text := nomealt[ordemalt[0]] + ' and ' + nomealt[ordemalt[1]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' +
+          grdperdamediaemaxima.Cell[1, 0].Text + ')' + ' + ' + 'P(' +
+          grdperdamediaemaxima.Cell[2, 0].Text + ')';
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+    if ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) <
+        (faixaprob[1] / 100)) and
+      ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) >=
+        (faixaprob[2] / 100)) and (recomendacao = false) then
+    begin
+      Px := (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) * 100;
+      if ((PerdaMaxima[ordemalt[0]] < epsilon[2]) and
+          (Perdamedia[ordemalt[0]] < omega[2])) and
+        ((PerdaMaxima[ordemalt[1]] < epsilon[2]) and
+          (Perdamedia[ordemalt[1]] < omega[2])) then
+      begin
+
+
+        grdrecomendacao.Cell[2, 0].Text := nomealt[ordemalt[0]] + ' and ' + nomealt[ordemalt[1]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' +
+          grdperdamediaemaxima.Cell[1, 0].Text + ')' + ' + ' + 'P(' +
+          grdperdamediaemaxima.Cell[2, 0].Text + ')';
+
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+    if ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) <
+        (faixaprob[2] / 100)) and
+      ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) >=
+        (faixaprob[3] / 100)) and (recomendacao = false) then
+    begin
+      Px := (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]]) * 100;
+      if ((PerdaMaxima[ordemalt[0]] < epsilon[3]) and
+          (Perdamedia[ordemalt[0]] < omega[3])) and
+        ((PerdaMaxima[ordemalt[1]] < epsilon[3]) and
+          (Perdamedia[ordemalt[1]] < omega[3])) then
+      begin
+
+
+       grdrecomendacao.Cell[2, 0].Text := nomealt[ordemalt[0]] + ' and ' + nomealt[ordemalt[1]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        txtdescricaoregra.Lines[2] := 'P(x) = ' + 'P(' +
+          grdperdamediaemaxima.Cell[1, 0].Text + ')' + ' + ' + 'P(' +
+          grdperdamediaemaxima.Cell[2, 0].Text + ')';
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+
+    // Para alt1, alt2 e alt3
+    if (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) >= (faixaprob[0] / 100) then
+    // Se a alt[1] tiver uma probabilidade >= 80%, ela é recomendada
+    begin
+      Px := (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) * 100;
+      if ((PerdaMaxima[ordemalt[0]] < epsilon[0]) and
+          (Perdamedia[ordemalt[0]] < omega[0])) and
+        ((PerdaMaxima[ordemalt[1]] < epsilon[0]) and
+          (Perdamedia[ordemalt[1]] < omega[0])) and
+        ((PerdaMaxima[ordemalt[2]] < epsilon[0]) and
+          (Perdamedia[ordemalt[2]] < omega[0])) then
+      begin
+
+        grdrecomendacao.Cell[2, 0].Text := nomealt[ordemalt[0]] + ', ' + nomealt[ordemalt[1]] + ' and ' + nomealt[ordemalt[2]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        recomendacao := True;
+        exit;
+      end
+      else
+        recomendacao := false;
+    end;
+    if ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) < (faixaprob[0] / 100)) and
+      ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) >= (faixaprob[1] / 100)) and
+      (recomendacao = false) then
+    begin
+      Px := (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) * 100;
+      if ((PerdaMaxima[ordemalt[0]] < epsilon[1]) and
+          (Perdamedia[ordemalt[0]] < omega[1])) and
+        ((PerdaMaxima[ordemalt[1]] < epsilon[1]) and
+          (Perdamedia[ordemalt[1]] < omega[1])) and
+        ((PerdaMaxima[ordemalt[2]] < epsilon[1]) and
+          (Perdamedia[ordemalt[2]] < omega[1])) then
+      begin
+
+        grdrecomendacao.Cell[2, 0].Text := nomealt[ordemalt[0]] + ', ' + nomealt[ordemalt[1]] + ' and ' + nomealt[ordemalt[2]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+    if ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) < (faixaprob[1] / 100)) and
+      ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) >= (faixaprob[2] / 100)) and
+      (recomendacao = false) then
+    begin
+      Px := (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) * 100;
+      if ((PerdaMaxima[ordemalt[0]] < epsilon[2]) and
+          (Perdamedia[ordemalt[0]] < omega[2])) and
+        ((PerdaMaxima[ordemalt[1]] < epsilon[2]) and
+          (Perdamedia[ordemalt[1]] < omega[2])) and
+        ((PerdaMaxima[ordemalt[2]] < epsilon[2]) and
+          (Perdamedia[ordemalt[2]] < omega[2])) then
+      begin
+
+         grdrecomendacao.Cell[2, 0].Text := nomealt[ordemalt[0]] + ', ' + nomealt[ordemalt[1]] + ' and ' + nomealt[ordemalt[2]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+    if ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) < (faixaprob[2] / 100)) and
+      ((probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) >= (faixaprob[3] / 100)) and
+      (recomendacao = false) then
+    begin
+      Px := (probabilidadealt[ordemalt[0]] + probabilidadealt[ordemalt[1]] + probabilidadealt[ordemalt[2]]) * 100;
+      if ((PerdaMaxima[ordemalt[0]] < epsilon[3]) and
+          (Perdamedia[ordemalt[0]] < omega[3])) and
+        ((PerdaMaxima[ordemalt[1]] < epsilon[3]) and
+          (Perdamedia[ordemalt[1]] < omega[3])) and
+        ((PerdaMaxima[ordemalt[2]] < epsilon[3]) and
+          (Perdamedia[ordemalt[2]] < omega[3])) then
+      begin
+
+        grdrecomendacao.Cell[2, 0].Text := nomealt[ordemalt[0]] + ', ' + nomealt[ordemalt[1]] + ' and ' + nomealt[ordemalt[2]] + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+        recomendacao := True;
+        exit;
+      end
+      else
+      begin
+        recomendacao := false;
+      end;
+    end;
+
+    // caso não passe em nenhuma regra
+    if recomendacao = false then
+    begin
+      grdrecomendacao.Cell[3, 0].Text := 'Not Possible';
+      grdrecomendacao.Cell[3, 0].Text := grdrecomendacao.Cell[3, 0]
+        .Text + ' (P(x) = ' + formatfloat('0', Px) + '%)';
+    end;
+
+  end;
+
+
+end;
+
+
+procedure TIWForm1.lnkregrasdedecisaoClick(Sender: TObject);
+begin
+  if grdperdamediaemaxima.Visible = True then
+  begin
+    lnkregrasdedecisao.Caption := 'Click to view others statistical indexes';
+    grdperdamediaemaxima.Visible := false;
+    grdregradedecisao.Visible := True;
+    exit;
+  end;
+  if grdperdamediaemaxima.Visible = false then
+  begin
+    lnkregrasdedecisao.Caption := 'Click to view decision rules indexes';
+    grdperdamediaemaxima.Visible := True;
+    grdregradedecisao.Visible := false;
+    exit;
   end;
 end;
 
@@ -2222,7 +2799,7 @@ begin
       // auxresultado := auxresultado + mediageralprobalt[j];
     end;
 
-    Setlength(OrdemSol, length(matrizsol));
+    Setlength(ordemsol, length(matrizsol));
     Setlength(pular, length(matrizsol));
     for i := 0 to length(matrizsol) - 1 do
       pular[i] := false;
@@ -2317,8 +2894,8 @@ begin
     // chrtresultado.leftaxis.Items.Automatic := false;
     // chrtResultado.LeftAxis.Increment := Total;
 
-    imgAlternative.Picture.Bitmap.Assign(chrtResultado.TeeCreateBitmap
-        (clWebPURPLE, rect(0, 0, imgAlternative.Width, imgAlternative.Height)));
+    //imgAlternative.Picture.Bitmap.Assign(chrtResultado.TeeCreateBitmap
+      //  (clWebPURPLE, rect(0, 0, imgAlternative.Width, imgAlternative.Height)));
 
     Total := length(CasesOrdemcrit);
     totalacumulado := 0;
@@ -2361,9 +2938,9 @@ begin
     // chrtpoa.leftaxis.Items.Automatic := false;
     // chrtpoa.LeftAxis.Increment := Total;
 
-    imgPOA.Picture.Bitmap.Assign
-      (chrtPOA.TeeCreateBitmap(clWebPURPLE, rect(0, 0, imgPOA.Width,
-          imgPOA.Height)));
+    imgresultado.Picture.Bitmap.Assign
+      (chrtPOA.TeeCreateBitmap(clWebPURPLE, rect(0, 0, imgresultado.Width,
+          imgresultado.Height)));
 
     chrtComparacao.RemoveAllSeries;
     chrtComparacao.Legend.Items.Clear;
@@ -2421,8 +2998,6 @@ begin
     // chrtcomparacao.leftaxis.Items.Automatic := false;
     // chrtcomparacao.LeftAxis.Increment := Total;
 
-    imgcomparacao.Picture.Bitmap.Assign(chrtComparacao.TeeCreateBitmap
-        (clWebPURPLE, rect(0, 0, imgcomparacao.Width, imgcomparacao.Height)));
 
     grdresultados.Clear;
 
@@ -2849,8 +3424,325 @@ begin
         end;
       end;
 
+     SetLength(epsilon, 4);
+    SetLength(omega, 4);
+    SetLength(faixaprob, 4);
 
+    faixaprob[0] := 80;
+    faixaprob[1] := 70;
+    faixaprob[2] := 60;
+    faixaprob[3] := 50;
+
+    epsilon[0] := 0.5;
+    epsilon[1] := 0.4;
+    epsilon[2] := 0.3;
+    epsilon[3] := 0.2;
+
+    omega[0] := 0.25;
+    omega[1] := 0.2;
+    omega[2] := 0.15;
+    omega[3] := 0.10;
+
+    { grdlimiares.Cells[0, 0] := '80% < P(x)';
+      grdlimiares.Cells[0, 1] := '70% < P(x) < 80%';
+      grdlimiares.Cells[0, 2] := '60% < P(x) < 70%';
+      grdlimiares.Cells[0, 3] := '50% < P(x) < 60%';
+      }
+
+    // voltar pra ca
+    grdlimiares.DynEdits[1, 0] := '0.50';
+    grdlimiares.DynEdits[1, 1] := '0.40';
+    grdlimiares.DynEdits[1, 2] := '0.30';
+    grdlimiares.DynEdits[1, 3] := '0.20';
+
+    grdlimiares.DynEdits[2, 0] := '0.25';
+    grdlimiares.DynEdits[2, 1] := '0.20';
+    grdlimiares.DynEdits[2, 2] := '0.15';
+    grdlimiares.DynEdits[2, 3] := '0.10';
+    RegrasDeDecisao;
   end;
+end;
+
+procedure TIWForm1.btnatualizarlimiaresClick(Sender: TObject);
+var
+  i, j, k, qtdpareto: Integer;
+  auxregra, aux1, aux2, aux3: real;
+  bar: array of TBarSeries;
+  SolRegra1, SolRegra2, SolRegra3: Integer;
+  epsilon, omega: array of real;
+  totalacumulado: real;
+  recomendacao: boolean;
+  Naltsel: Integer;
+  Px: real;
+  faixaprob: array of real;
+  aux: string;
+  mudança : boolean;
+begin
+  with TIWUserSession(WebApplication.Data) do
+  begin
+    SetLength(epsilon, 4);
+    SetLength(omega, 4);
+    SetLength(faixaprob, 4);
+    for j := 1 to 2 do
+    begin
+    if (trocapv(grdlimiares.DynEdits[j, 0])) < 0.03 then
+      grdlimiares.DynEdits[j, 0] := '0.03';
+    if (trocapv(grdlimiares.DynEdits[j, 1])) < 0.02 then
+      grdlimiares.DynEdits[j, 1] := '0.02';
+    if (trocapv(grdlimiares.DynEdits[j, 2])) < 0.01 then
+      grdlimiares.DynEdits[j, 2] := '0.01';
+
+    if (trocapv(grdlimiares.DynEdits[j, 3])) > 0.97 then
+      grdlimiares.DynEdits[j, 3] := '0.97';
+    if (trocapv(grdlimiares.DynEdits[j, 2])) > 0.98 then
+      grdlimiares.DynEdits[j, 2] := '0.98';
+    if (trocapv(grdlimiares.DynEdits[j, 1])) > 0.99 then
+      grdlimiares.DynEdits[j, 1] := '0.99';
+
+
+
+
+    for i := 0 to grdlimiares.rowcount - 2 do
+    for k := i+1 to grdlimiares.rowcount - 1 do
+    begin
+      if (trocapv(grdlimiares.DynEdits[j, i])) <
+        (trocapv(grdlimiares.DynEdits[j, k])) then
+      begin
+        aux := grdlimiares.DynEdits[j, i];
+        grdlimiares.DynEdits[j, i] := grdlimiares.DynEdits[j, k];
+        grdlimiares.DynEdits[j, k] := aux;
+      end;
+      if (trocapv(grdlimiares.DynEdits[j, i])) =
+        (trocapv(grdlimiares.DynEdits[j, k])) then
+      begin
+        DecrementaValorLimiar(j, k);
+      end;
+    end;
+    end;
+
+
+    for i := 0 to 3 do
+    begin
+      epsilon[i] := trocapv(grdlimiares.DynEdits[1, i]);
+      omega[i] := trocapv(grdlimiares.DynEdits[2, i]);
+    end;
+
+    faixaprob[0] := StrToFloat(cmbbxp1.Items[cmbbxp1.ItemIndex]);
+    faixaprob[1] := StrToFloat(cmbbxp2.Items[cmbbxp2.ItemIndex]);
+    faixaprob[2] := StrToFloat(cmbbxp3.Items[cmbbxp3.ItemIndex]);
+    faixaprob[3] := StrToFloat(cmbbxp4.Items[cmbbxp4.ItemIndex]);
+
+    RegrasDeDecisao;
+  end;
+
+
+
+end;
+
+procedure TIWForm1.DecrementaValorLimiar(j, k: Integer);
+var
+  valorAtual, novoValor: Double;
+begin
+  if grdlimiares.DynEdits[j, k] = '1.00' then
+  grdlimiares.DynEdits[j, k] := '0.99'
+else if grdlimiares.DynEdits[j, k] = '0.99' then
+  grdlimiares.DynEdits[j, k] := '0.98'
+else if grdlimiares.DynEdits[j, k] = '0.98' then
+  grdlimiares.DynEdits[j, k] := '0.97'
+else if grdlimiares.DynEdits[j, k] = '0.97' then
+  grdlimiares.DynEdits[j, k] := '0.96'
+else if grdlimiares.DynEdits[j, k] = '0.96' then
+  grdlimiares.DynEdits[j, k] := '0.95'
+else if grdlimiares.DynEdits[j, k] = '0.95' then
+  grdlimiares.DynEdits[j, k] := '0.94'
+else if grdlimiares.DynEdits[j, k] = '0.94' then
+  grdlimiares.DynEdits[j, k] := '0.93'
+else if grdlimiares.DynEdits[j, k] = '0.93' then
+  grdlimiares.DynEdits[j, k] := '0.92'
+else if grdlimiares.DynEdits[j, k] = '0.92' then
+  grdlimiares.DynEdits[j, k] := '0.91'
+else if grdlimiares.DynEdits[j, k] = '0.91' then
+  grdlimiares.DynEdits[j, k] := '0.90'
+else if grdlimiares.DynEdits[j, k] = '0.90' then
+  grdlimiares.DynEdits[j, k] := '0.89'
+else if grdlimiares.DynEdits[j, k] = '0.89' then
+  grdlimiares.DynEdits[j, k] := '0.88'
+else if grdlimiares.DynEdits[j, k] = '0.88' then
+  grdlimiares.DynEdits[j, k] := '0.87'
+else if grdlimiares.DynEdits[j, k] = '0.87' then
+  grdlimiares.DynEdits[j, k] := '0.86'
+else if grdlimiares.DynEdits[j, k] = '0.86' then
+  grdlimiares.DynEdits[j, k] := '0.85'
+else if grdlimiares.DynEdits[j, k] = '0.85' then
+  grdlimiares.DynEdits[j, k] := '0.84'
+else if grdlimiares.DynEdits[j, k] = '0.84' then
+  grdlimiares.DynEdits[j, k] := '0.83'
+else if grdlimiares.DynEdits[j, k] = '0.83' then
+  grdlimiares.DynEdits[j, k] := '0.82'
+else if grdlimiares.DynEdits[j, k] = '0.82' then
+  grdlimiares.DynEdits[j, k] := '0.81'
+else if grdlimiares.DynEdits[j, k] = '0.81' then
+  grdlimiares.DynEdits[j, k] := '0.80'
+else if grdlimiares.DynEdits[j, k] = '0.80' then
+  grdlimiares.DynEdits[j, k] := '0.79'
+else if grdlimiares.DynEdits[j, k] = '0.79' then
+  grdlimiares.DynEdits[j, k] := '0.78'
+else if grdlimiares.DynEdits[j, k] = '0.78' then
+  grdlimiares.DynEdits[j, k] := '0.77'
+else if grdlimiares.DynEdits[j, k] = '0.77' then
+  grdlimiares.DynEdits[j, k] := '0.76'
+else if grdlimiares.DynEdits[j, k] = '0.76' then
+  grdlimiares.DynEdits[j, k] := '0.75'
+else if grdlimiares.DynEdits[j, k] = '0.75' then
+  grdlimiares.DynEdits[j, k] := '0.74'
+else if grdlimiares.DynEdits[j, k] = '0.74' then
+  grdlimiares.DynEdits[j, k] := '0.73'
+else if grdlimiares.DynEdits[j, k] = '0.73' then
+  grdlimiares.DynEdits[j, k] := '0.72'
+else if grdlimiares.DynEdits[j, k] = '0.72' then
+  grdlimiares.DynEdits[j, k] := '0.71'
+else if grdlimiares.DynEdits[j, k] = '0.71' then
+  grdlimiares.DynEdits[j, k] := '0.70'
+else if grdlimiares.DynEdits[j, k] = '0.70' then
+  grdlimiares.DynEdits[j, k] := '0.69'
+else if grdlimiares.DynEdits[j, k] = '0.69' then
+  grdlimiares.DynEdits[j, k] := '0.68'
+else if grdlimiares.DynEdits[j, k] = '0.68' then
+  grdlimiares.DynEdits[j, k] := '0.67'
+else if grdlimiares.DynEdits[j, k] = '0.67' then
+  grdlimiares.DynEdits[j, k] := '0.66'
+else if grdlimiares.DynEdits[j, k] = '0.66' then
+  grdlimiares.DynEdits[j, k] := '0.65'
+else if grdlimiares.DynEdits[j, k] = '0.65' then
+  grdlimiares.DynEdits[j, k] := '0.64'
+else if grdlimiares.DynEdits[j, k] = '0.64' then
+  grdlimiares.DynEdits[j, k] := '0.63'
+else if grdlimiares.DynEdits[j, k] = '0.63' then
+  grdlimiares.DynEdits[j, k] := '0.62'
+else if grdlimiares.DynEdits[j, k] = '0.62' then
+  grdlimiares.DynEdits[j, k] := '0.61'
+else if grdlimiares.DynEdits[j, k] = '0.61' then
+  grdlimiares.DynEdits[j, k] := '0.60'
+else if grdlimiares.DynEdits[j, k] = '0.60' then
+  grdlimiares.DynEdits[j, k] := '0.59'
+else if grdlimiares.DynEdits[j, k] = '0.59' then
+  grdlimiares.DynEdits[j, k] := '0.58'
+else if grdlimiares.DynEdits[j, k] = '0.58' then
+  grdlimiares.DynEdits[j, k] := '0.57'
+else if grdlimiares.DynEdits[j, k] = '0.57' then
+  grdlimiares.DynEdits[j, k] := '0.56'
+else if grdlimiares.DynEdits[j, k] = '0.56' then
+  grdlimiares.DynEdits[j, k] := '0.55'
+else if grdlimiares.DynEdits[j, k] = '0.55' then
+  grdlimiares.DynEdits[j, k] := '0.54'
+else if grdlimiares.DynEdits[j, k] = '0.54' then
+  grdlimiares.DynEdits[j, k] := '0.53'
+else if grdlimiares.DynEdits[j, k] = '0.53' then
+  grdlimiares.DynEdits[j, k] := '0.52'
+else if grdlimiares.DynEdits[j, k] = '0.52' then
+  grdlimiares.DynEdits[j, k] := '0.51'
+else if grdlimiares.DynEdits[j, k] = '0.51' then
+  grdlimiares.DynEdits[j, k] := '0.50'
+else if grdlimiares.DynEdits[j, k] = '0.50' then
+  grdlimiares.DynEdits[j, k] := '0.49'
+else if grdlimiares.DynEdits[j, k] = '0.49' then
+  grdlimiares.DynEdits[j, k] := '0.48'
+else if grdlimiares.DynEdits[j, k] = '0.48' then
+  grdlimiares.DynEdits[j, k] := '0.47'
+else if grdlimiares.DynEdits[j, k] = '0.47' then
+  grdlimiares.DynEdits[j, k] := '0.46'
+else if grdlimiares.DynEdits[j, k] = '0.46' then
+  grdlimiares.DynEdits[j, k] := '0.45'
+else if grdlimiares.DynEdits[j, k] = '0.45' then
+  grdlimiares.DynEdits[j, k] := '0.44'
+else if grdlimiares.DynEdits[j, k] = '0.44' then
+  grdlimiares.DynEdits[j, k] := '0.43'
+else if grdlimiares.DynEdits[j, k] = '0.43' then
+  grdlimiares.DynEdits[j, k] := '0.42'
+else if grdlimiares.DynEdits[j, k] = '0.42' then
+  grdlimiares.DynEdits[j, k] := '0.41'
+else if grdlimiares.DynEdits[j, k] = '0.41' then
+  grdlimiares.DynEdits[j, k] := '0.40'
+else if grdlimiares.DynEdits[j, k] = '0.40' then
+  grdlimiares.DynEdits[j, k] := '0.39'
+else if grdlimiares.DynEdits[j, k] = '0.39' then
+  grdlimiares.DynEdits[j, k] := '0.38'
+else if grdlimiares.DynEdits[j, k] = '0.38' then
+  grdlimiares.DynEdits[j, k] := '0.37'
+else if grdlimiares.DynEdits[j, k] = '0.37' then
+  grdlimiares.DynEdits[j, k] := '0.36'
+else if grdlimiares.DynEdits[j, k] = '0.36' then
+  grdlimiares.DynEdits[j, k] := '0.35'
+else if grdlimiares.DynEdits[j, k] = '0.35' then
+  grdlimiares.DynEdits[j, k] := '0.34'
+else if grdlimiares.DynEdits[j, k] = '0.34' then
+  grdlimiares.DynEdits[j, k] := '0.33'
+else if grdlimiares.DynEdits[j, k] = '0.33' then
+  grdlimiares.DynEdits[j, k] := '0.32'
+else if grdlimiares.DynEdits[j, k] = '0.32' then
+  grdlimiares.DynEdits[j, k] := '0.31'
+else if grdlimiares.DynEdits[j, k] = '0.31' then
+  grdlimiares.DynEdits[j, k] := '0.30'
+else if grdlimiares.DynEdits[j, k] = '0.30' then
+  grdlimiares.DynEdits[j, k] := '0.29'
+else if grdlimiares.DynEdits[j, k] = '0.29' then
+  grdlimiares.DynEdits[j, k] := '0.28'
+else if grdlimiares.DynEdits[j, k] = '0.28' then
+  grdlimiares.DynEdits[j, k] := '0.27'
+else if grdlimiares.DynEdits[j, k] = '0.27' then
+  grdlimiares.DynEdits[j, k] := '0.26'
+else if grdlimiares.DynEdits[j, k] = '0.26' then
+  grdlimiares.DynEdits[j, k] := '0.25'
+else if grdlimiares.DynEdits[j, k] = '0.25' then
+  grdlimiares.DynEdits[j, k] := '0.24'
+else if grdlimiares.DynEdits[j, k] = '0.24' then
+  grdlimiares.DynEdits[j, k] := '0.23'
+else if grdlimiares.DynEdits[j, k] = '0.23' then
+  grdlimiares.DynEdits[j, k] := '0.22'
+else if grdlimiares.DynEdits[j, k] = '0.22' then
+  grdlimiares.DynEdits[j, k] := '0.21'
+else if grdlimiares.DynEdits[j, k] = '0.21' then
+  grdlimiares.DynEdits[j, k] := '0.20'
+else if grdlimiares.DynEdits[j, k] = '0.20' then
+  grdlimiares.DynEdits[j, k] := '0.19'
+else if grdlimiares.DynEdits[j, k] = '0.19' then
+  grdlimiares.DynEdits[j, k] := '0.18'
+else if grdlimiares.DynEdits[j, k] = '0.18' then
+  grdlimiares.DynEdits[j, k] := '0.17'
+else if grdlimiares.DynEdits[j, k] = '0.17' then
+  grdlimiares.DynEdits[j, k] := '0.16'
+else if grdlimiares.DynEdits[j, k] = '0.16' then
+  grdlimiares.DynEdits[j, k] := '0.15'
+else if grdlimiares.DynEdits[j, k] = '0.15' then
+  grdlimiares.DynEdits[j, k] := '0.14'
+else if grdlimiares.DynEdits[j, k] = '0.14' then
+  grdlimiares.DynEdits[j, k] := '0.13'
+else if grdlimiares.DynEdits[j, k] = '0.13' then
+  grdlimiares.DynEdits[j, k] := '0.12'
+else if grdlimiares.DynEdits[j, k] = '0.12' then
+  grdlimiares.DynEdits[j, k] := '0.11'
+else if grdlimiares.DynEdits[j, k] = '0.11' then
+  grdlimiares.DynEdits[j, k] := '0.10'
+else if grdlimiares.DynEdits[j, k] = '0.10' then
+  grdlimiares.DynEdits[j, k] := '0.09'
+else if grdlimiares.DynEdits[j, k] = '0.09' then
+  grdlimiares.DynEdits[j, k] := '0.08'
+else if grdlimiares.DynEdits[j, k] = '0.08' then
+  grdlimiares.DynEdits[j, k] := '0.07'
+else if grdlimiares.DynEdits[j, k] = '0.07' then
+  grdlimiares.DynEdits[j, k] := '0.06'
+else if grdlimiares.DynEdits[j, k] = '0.06' then
+  grdlimiares.DynEdits[j, k] := '0.05'
+else if grdlimiares.DynEdits[j, k] = '0.05' then
+  grdlimiares.DynEdits[j, k] := '0.04'
+else if grdlimiares.DynEdits[j, k] = '0.04' then
+  grdlimiares.DynEdits[j, k] := '0.03'
+else if grdlimiares.DynEdits[j, k] = '0.03' then
+  grdlimiares.DynEdits[j, k] := '0.02'
+else if grdlimiares.DynEdits[j, k] = '0.02' then
+  grdlimiares.DynEdits[j, k] := '0.01'
+else
+  grdlimiares.DynEdits[j, k] := '0.00';
 end;
 
 procedure TIWForm1.btnauxchooseClick(Sender: TObject);
@@ -3912,9 +4804,24 @@ begin
       // chrtresultado.leftaxis.Items.Automatic := false;
       // chrtResultado.LeftAxis.Increment := 100;
     end;}
-    imgAlternative.Picture.Bitmap.Assign(chrtResultado.TeeCreateBitmap
-        (clWebPURPLE, rect(0, 0, imgAlternative.Width, imgAlternative.Height)));
+
   end;
+end;
+
+procedure TIWForm1.btnVisualizarOPClick(Sender: TObject);
+begin
+    rgncomparacao.Visible := false;
+    IWRegion5.Visible := true;
+    IWLabel8.Visible := true;
+    IWLabel9.Visible := true;
+    IWRegion6.Visible := true;
+
+        imgresultado.Picture.Bitmap.Assign
+      (chrtPOA.TeeCreateBitmap(clWebPURPLE, rect(0, 0, imgresultado.Width,
+          imgresultado.Height)));
+
+    btnvisualizarop.backcolorto := clmedgray;
+    btnalternativa.backcolorto := clweblightgray;
 end;
 
 procedure TIWForm1.cmbbxAlternativaChange(Sender: TObject);
@@ -4057,6 +4964,137 @@ begin
     end;
   end;
 end;
+
+procedure TIWForm1.cmbbxp1Change(Sender: TObject);
+var
+  i, aux: Integer;
+begin
+  if strtoint(cmbbxp1.Items[cmbbxp1.ItemIndex]) <= strtoint
+    (cmbbxp2.Items[cmbbxp2.ItemIndex]) then
+  begin
+    aux := cmbbxp2.ItemIndex;
+    cmbbxp2.ItemIndex := cmbbxp1.ItemIndex;
+    cmbbxp1.ItemIndex := aux;
+    if cmbbxp2.ItemIndex <= 1 then
+      cmbbxp2.ItemIndex := 1;
+    if cmbbxp1.ItemIndex >= 47 then
+      cmbbxp1.ItemIndex := 47;
+
+    if cmbbxp1.ItemIndex = cmbbxp2.ItemIndex then
+      cmbbxp2.ItemIndex := cmbbxp2.ItemIndex + 1;
+
+    cmbbxp2Change(self);
+  end;
+
+  lblp2.Caption := '% < P(x) < ' + cmbbxp1.Items[cmbbxp1.ItemIndex] + '%';
+end;
+
+procedure TIWForm1.cmbbxp2Change(Sender: TObject);
+var
+  i, aux: Integer;
+begin
+  if strtoint(cmbbxp1.Items[cmbbxp1.ItemIndex]) <= strtoint
+    (cmbbxp2.Items[cmbbxp2.ItemIndex]) then
+  begin
+    aux := cmbbxp2.ItemIndex;
+    cmbbxp2.ItemIndex := cmbbxp1.ItemIndex;
+    cmbbxp1.ItemIndex := aux;
+    if cmbbxp2.ItemIndex <= 1 then
+      cmbbxp2.ItemIndex := 1;
+    if cmbbxp1.ItemIndex >= 47 then
+      cmbbxp1.ItemIndex := 47;
+
+    if cmbbxp1.ItemIndex = cmbbxp2.ItemIndex then
+      cmbbxp2.ItemIndex := cmbbxp2.ItemIndex + 1;
+
+    cmbbxp1Change(self);
+  end;
+
+  if strtoint(cmbbxp2.Items[cmbbxp2.ItemIndex]) <= strtoint
+    (cmbbxp3.Items[cmbbxp3.ItemIndex]) then
+  begin
+    aux := cmbbxp3.ItemIndex;
+    cmbbxp3.ItemIndex := cmbbxp2.ItemIndex;
+    cmbbxp2.ItemIndex := aux;
+    if cmbbxp3.ItemIndex <= 2 then
+      cmbbxp3.ItemIndex := 2;
+    if cmbbxp2.ItemIndex >= 48 then
+      cmbbxp2.ItemIndex := 48;
+
+    if cmbbxp2.ItemIndex = cmbbxp3.ItemIndex then
+      cmbbxp3.ItemIndex := cmbbxp3.ItemIndex + 1;
+
+    cmbbxp3Change(self);
+  end;
+
+  lblp3.Caption := '% < P(x) < ' + cmbbxp2.Items[cmbbxp2.ItemIndex] + '%';
+end;
+
+procedure TIWForm1.cmbbxp3Change(Sender: TObject);
+var
+  i, aux: Integer;
+begin
+  if strtoint(cmbbxp2.Items[cmbbxp2.ItemIndex]) <= strtoint
+    (cmbbxp3.Items[cmbbxp3.ItemIndex]) then
+  begin
+    aux := cmbbxp3.ItemIndex;
+    cmbbxp3.ItemIndex := cmbbxp2.ItemIndex;
+    cmbbxp2.ItemIndex := aux;
+    if cmbbxp3.ItemIndex <= 2 then
+      cmbbxp3.ItemIndex := 2;
+    if cmbbxp2.ItemIndex >= 48 then
+      cmbbxp2.ItemIndex := 48;
+
+    if cmbbxp2.ItemIndex = cmbbxp3.ItemIndex then
+      cmbbxp3.ItemIndex := cmbbxp3.ItemIndex + 1;
+
+    cmbbxp2Change(self);
+  end;
+
+  if strtoint(cmbbxp3.Items[cmbbxp3.ItemIndex]) <= strtoint
+    (cmbbxp4.Items[cmbbxp4.ItemIndex]) then
+  begin
+    aux := cmbbxp4.ItemIndex;
+    cmbbxp4.ItemIndex := cmbbxp3.ItemIndex;
+    cmbbxp3.ItemIndex := aux;
+    if cmbbxp4.ItemIndex <= 3 then
+      cmbbxp4.ItemIndex := 3;
+    if cmbbxp3.ItemIndex >= 49 then
+      cmbbxp3.ItemIndex := 49;
+
+    if cmbbxp3.ItemIndex = cmbbxp4.ItemIndex then
+      cmbbxp4.ItemIndex := cmbbxp4.ItemIndex + 1;
+
+    cmbbxp4Change(self);
+  end;
+
+  lblp4.Caption := '% < P(x) < ' + cmbbxp3.Items[cmbbxp3.ItemIndex] + '%';
+end;
+
+
+procedure TIWForm1.cmbbxp4Change(Sender: TObject);
+var
+  i, aux: Integer;
+begin
+
+  if strtoint(cmbbxp3.Items[cmbbxp3.ItemIndex]) <= strtoint
+    (cmbbxp4.Items[cmbbxp4.ItemIndex]) then
+  begin
+    aux := cmbbxp4.ItemIndex;
+    cmbbxp4.ItemIndex := cmbbxp3.ItemIndex;
+    cmbbxp3.ItemIndex := aux;
+    if cmbbxp4.ItemIndex <= 3 then
+      cmbbxp4.ItemIndex := 3;
+    if cmbbxp3.ItemIndex >= 49 then
+      cmbbxp3.ItemIndex := 49;
+
+    if cmbbxp3.ItemIndex = cmbbxp4.ItemIndex then
+      cmbbxp4.ItemIndex := cmbbxp4.ItemIndex + 1;
+
+    cmbbxp3Change(self);
+  end;
+end;
+
 
 procedure TIWForm1.rgnalternativaCreate(Sender: TObject);
 begin
